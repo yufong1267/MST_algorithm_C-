@@ -1,0 +1,9 @@
+C:\Users\user\Desktop\HW2\HW2\bin\Debug\HW2.exe.config
+C:\Users\user\Desktop\HW2\HW2\bin\Debug\HW2.exe
+C:\Users\user\Desktop\HW2\HW2\bin\Debug\HW2.pdb
+C:\Users\user\Desktop\HW2\HW2\obj\Debug\HW2.csprojResolveAssemblyReference.cache
+C:\Users\user\Desktop\HW2\HW2\obj\Debug\HW2.Read.resources
+C:\Users\user\Desktop\HW2\HW2\obj\Debug\HW2.Properties.Resources.resources
+C:\Users\user\Desktop\HW2\HW2\obj\Debug\HW2.csproj.GenerateResource.Cache
+C:\Users\user\Desktop\HW2\HW2\obj\Debug\HW2.exe
+C:\Users\user\Desktop\HW2\HW2\obj\Debug\HW2.pdb
