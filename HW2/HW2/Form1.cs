@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -131,6 +132,7 @@ namespace HW2
 
         private void button3_Click(object sender, EventArgs e)
         {
+            result = "";
             try
             {
                 algorithm_Prim();
@@ -139,10 +141,12 @@ namespace HW2
             {
                 MessageBox.Show("" + e1.Message);
             }
+            //可以開啟畫圖
+            button5.Enabled = true;
         }
 
         private int route_total = 0;
-        private string result = "3";
+        private string result = "";
         private void algorithm_Prim()
         {
             int[] X = new int[11];
@@ -210,7 +214,7 @@ namespace HW2
                                     X[k] = 1;
                                     Y[k] = 0;
 
-                                    result = result +" " + k;
+                                    result = result +" " + k + "-" + q + ":" + get_martix[q, k] + "\n";
                                 }
                             }
                             
@@ -235,12 +239,99 @@ namespace HW2
                 }
             }
 
-            MessageBox.Show(""+result);
+            MessageBox.Show(""+result + "\n上面表示 點-點:edge  0-1:5 表示0連到1,長度5");
+
+            
+           
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Graphics g ;
+            g = this.CreateGraphics();
+            Pen myPen = new Pen(System.Drawing.Color.Indigo, 2);
+            Font drawFont = new Font("Arial", 16);
+            SolidBrush drawBrush = new SolidBrush(Color.Black);
+
+            //畫圖 Y最大就是270 X最大就是400 Y最小就是50 X最小就是50
+            float[] pointx = new float[top_vertext+1];
+            float[] pointy = new float[top_vertext+1];
+            //先產生每個座標點的亂數
+            Random ran = new Random();
+            for(int q = 0; q <= top_vertext; q++)
+            {
+                pointx[q] = (float)ran.Next(50, 400);
+                pointy[q] = (float)ran.Next(50, 270);
+            }
+            //確認有沒有0這個項目
+            bool check_zero = false;
+            for(int j = 0; j <top_vertext; j++)
+            {
+                if(get_martix[0 , j] != 0)
+                {
+                    check_zero = true;
+                }
+            }
+
+            //把每個圖show出來
+            
+            for (int i = 0; i <= top_vertext; i++)
+            {
+                if(!check_zero && i == 0)
+                {
+                    continue;
+                }
+                RectangleF drawRect = new RectangleF(pointx[i], pointy[i], 20, 20);
+                Rectangle rect = new Rectangle((int)pointx[i], (int)pointy[i], 20, 20);
+                g.DrawRectangle(myPen, rect);
+                StringFormat drawFormat = new StringFormat();
+                drawFormat.Alignment = StringAlignment.Center;
+                g.DrawString(""+i, drawFont, drawBrush, drawRect, drawFormat);
+            }
+
+            //這邊開始連線
+            int counter_check = 0;
+            int start = 0, end = 0, weight = 0 ;
+
+            for (int u = 0; u <result.Length; u++)
+            {
+             
+                if(result[u] >= '0' && result[u] <= '9')
+                {
+                    int rex = result[u] - '0';
+                    if(counter_check == 0)
+                    {
+                        start = rex;
+                        counter_check++;
+                    }else if(counter_check == 1)
+                    {
+                        end = rex;
+                        counter_check++;
+                    }else if(counter_check == 2)
+                    {
+                        weight = rex;
+                        counter_check = 0;
+                        g.DrawLine(myPen , pointx[start] + 10, pointy[start] , pointx[end] + 10, pointy[end] );
+                        g.DrawString(""+weight,drawFont,drawBrush,(pointx[start] + pointx[end] )/2, (pointy[start] + pointy[end] )/2);
+                        Thread.Sleep(500);
+                    }
+                    
+                }
+            }
+
+
+            button5.Enabled = false;
+
+        }
+
+        private void Read_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
